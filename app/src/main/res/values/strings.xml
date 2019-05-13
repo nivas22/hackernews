@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">Hacker News</string>
+    <string name="ok">OK</string>
+
+    <string name="internet_disconnected">Looks like your\'re offline! Please connect to WiFi or Data to get going!</string>
+    <string name="something_went_wrong">Oops!! Try as we might, we\'re unable to reach server. Could you try again after a while?</string>
+    <string name="appbar_scrolling_view_behavior">appbar_scrolling_view_behavior</string>
+</resources>

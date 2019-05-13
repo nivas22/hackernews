@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <dimen name="huge_text_size">20sp</dimen>
+    <dimen name="large_text_size">14sp</dimen>
+    <dimen name="semi_large_text_size">10sp</dimen>
+    <dimen name="normal_text_size">8sp</dimen>
+    <dimen name="semi_normal_text_size">7sp</dimen>
+    <dimen name="small_text_size">6sp</dimen>
+    <dimen name="tiny_text_size">4sp</dimen>
+
+    <!-- Margins and padding -->
+    <dimen name="margin_very_tiny">2dip</dimen>
+    <dimen name="margin_tiny">4dip</dimen>
+    <dimen name="margin_very_small">6dip</dimen>
+    <dimen name="margin_small">8dip</dimen>
+    <dimen name="margin">12dip</dimen>
+    <dimen name="margin_large">16dip</dimen>
+    <dimen name="margin_big">20dip</dimen>
+    <dimen name="margin_very_large">26dip</dimen>
+    <dimen name="margin_huge">36dip</dimen>
+
+    <dimen name="circle_dim">38dip</dimen>
+
+    <dimen name="dip_36">36dip</dimen>
+    <dimen name="dip_38">38dip</dimen>
+    <dimen name="dip_39">39dip</dimen>
+    <dimen name="dip_40">40dip</dimen>
+    <dimen name="dip_46">46dip</dimen>
+    <dimen name="dip_50">50dip</dimen>
+    <dimen name="dip_60">60dip</dimen>
+    <dimen name="dip_64">64dip</dimen>
+    <dimen name="dip_70">70dip</dimen>
+    <dimen name="dip_80">80dip</dimen>
+    <dimen name="dip_100">100dip</dimen>
+    <dimen name="dip_120">120dip</dimen>
+    <dimen name="dip_140">140dip</dimen>
+    <dimen name="dip_170">170dip</dimen>
+    <dimen name="dip_200">200dip</dimen>
+
+</resources>

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#DB19E3</color>
+    <color name="colorPrimaryDark">#BD10E0</color>
+    <color name="colorAccent">#3718F5</color>
+
+    <color name="black">#000000</color>
+    <color name="white">#FFFFFF</color>
+    <color name="app_background">#EFEFEF</color>
+
+    <color name="broader_band_grey">#F5F5F5</color>
+    <color name="safe_mode_text">#80ffffff</color>
+    <color name="facebook_blue">#5479CD</color>
+    <color name="inprogress_blue">#7C8FF9</color>
+    <color name="duenow_orange">#FF8282</color>
+    <color name="newassignment_green">#61C50E</color>
+
+</resources>
