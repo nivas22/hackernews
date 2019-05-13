@@ -14,14 +14,24 @@ import java.util.List;
 
 public class TopicsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
-    private final OnItemClickListener listener;
+    private OnItemClickListener listener;
     private List<String> topics;
-    private Context mContext;
 
-    public TopicsAdapter(Context context, List<String> topics, OnItemClickListener listener) {
+    public TopicsAdapter(List<String> topics, OnItemClickListener listener) {
         this.topics = topics;
-        this.mContext = context;
         this.listener = listener;
+    }
+
+    public void setListener(OnItemClickListener listener) {
+        this.listener = listener;
+    }
+
+    public OnItemClickListener getListener() {
+        return listener;
+    }
+
+    public List<String> getTopics() {
+        return topics;
     }
 
     public void setTopics(List<String> topics) {
@@ -36,11 +46,18 @@ public class TopicsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         RecyclerView.ViewHolder viewHolder = null;
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.topic_item_layout, parent, false);
+        View view = getLayout(parent);
         viewHolder = new ViewHolder(view);
         return viewHolder;
     }
 
+    public View getLayout(ViewGroup parent) {
+        return LayoutInflater.from(parent.getContext()).inflate(R.layout.topic_item_layout, parent, false);
+    }
+
+    public String getItemAtPosition(int position) {
+        return topics.get(position);
+    }
 
     @Override
     public void onBindViewHolder(final RecyclerView.ViewHolder viewholder, final int position) {
@@ -48,7 +65,7 @@ public class TopicsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             return;
         }
         ViewHolder holder = (ViewHolder) viewholder;
-        String dueDate = topics.get(position);
+        String dueDate = getItemAtPosition(position);
         holder.topicName.setText(dueDate);
 
         holder.card.setOnClickListener(new View.OnClickListener() {
@@ -63,7 +80,7 @@ public class TopicsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         void onItemClick(String item);
     }
 
-    class ViewHolder extends RecyclerView.ViewHolder {
+    static class ViewHolder extends RecyclerView.ViewHolder {
         TextView topicName;
         CardView card;
 

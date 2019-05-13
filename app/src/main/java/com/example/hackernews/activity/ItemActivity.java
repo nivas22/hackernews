@@ -87,7 +87,7 @@ public class ItemActivity extends AppCompatActivity {
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(layoutManager);
-        adapter = new TopicsAdapter(this, topics, new TopicsAdapter.OnItemClickListener() {
+        adapter = new TopicsAdapter( topics, new TopicsAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(String item) {
 
@@ -174,9 +174,7 @@ public class ItemActivity extends AppCompatActivity {
 
             try {
                 Response response = ok.newCall(request).execute();
-                Log.e("response", String.valueOf(response.code()));
                 if (response.isSuccessful()) {
-
                     Gson gson = new Gson();
                     if (response.body() != null) {
                         news = gson.fromJson(response.body().string(), News.class);
@@ -185,11 +183,6 @@ public class ItemActivity extends AppCompatActivity {
                     }
                     return Constants.SUCCESS;
                 }
-
-                if (response.code() == 401) {
-                    return Constants.SESSION_EXPIRED;
-                }
-
             } catch (IOException e) {
                 e.printStackTrace();
             }

@@ -56,7 +56,7 @@ public class HomeActivity extends AppCompatActivity {
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(layoutManager);
-        adapter = new TopicsAdapter(this, topics, new TopicsAdapter.OnItemClickListener() {
+        adapter = new TopicsAdapter( topics, new TopicsAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(String item) {
                 Intent mainIntent = new Intent(HomeActivity.this, ItemActivity.class);
@@ -143,11 +143,6 @@ public class HomeActivity extends AppCompatActivity {
                     }
                     return Constants.SUCCESS;
                 }
-
-                if (response.code() == 401) {
-                    return Constants.SESSION_EXPIRED;
-                }
-
             } catch (IOException e) {
                 e.printStackTrace();
             }
