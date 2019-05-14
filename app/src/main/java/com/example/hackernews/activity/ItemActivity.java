@@ -87,12 +87,7 @@ public class ItemActivity extends AppCompatActivity {
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(layoutManager);
-        adapter = new TopicsAdapter( topics, new TopicsAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(String item) {
-
-            }
-        });
+        adapter = new TopicsAdapter(topics);
         recyclerView.setAdapter(adapter);
 
         new GetTopicItemTask(item).execute();
@@ -206,7 +201,8 @@ public class ItemActivity extends AppCompatActivity {
 
             if (Constants.SUCCESS == result) {
                 Log.e("Topics count:", String.valueOf(news));
-                loadView(news);
+                if(news != null)
+                    loadView(news);
             }
         }
     }

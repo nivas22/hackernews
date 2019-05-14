@@ -43,9 +43,9 @@ public class HomeActivity extends AppCompatActivity {
     @BindView(R.id.swipe_container)
     SwipeRefreshLayout refreshLayout;
 
-    private TopicsAdapter adapter;
-    private List<String> topics = new ArrayList<>();
-    private OkHttpClient ok = App.get().getOk();
+    TopicsAdapter adapter;
+    List<String> topics = new ArrayList<>();
+    OkHttpClient ok = App.get().getOk();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,9 +56,10 @@ public class HomeActivity extends AppCompatActivity {
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(layoutManager);
-        adapter = new TopicsAdapter( topics, new TopicsAdapter.OnItemClickListener() {
+        adapter = new TopicsAdapter(topics);
+        adapter.setListener(new TopicsAdapter.OnItemClickListener() {
             @Override
-            public void onItemClick(String item) {
+            public void onItemClick(View v, String item) {
                 Intent mainIntent = new Intent(HomeActivity.this, ItemActivity.class);
                 mainIntent.putExtra("item", item);
                 HomeActivity.this.startActivity(mainIntent);
@@ -67,14 +68,12 @@ public class HomeActivity extends AppCompatActivity {
         recyclerView.setAdapter(adapter);
 
         loadRecyclerViewData(true);
-
         refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
                 loadRecyclerViewData(false);
             }
         });
-
         refreshLayout.setColorSchemeResources(R.color.colorPrimary,
                 android.R.color.holo_green_dark,
                 android.R.color.holo_orange_dark,
@@ -175,4 +174,7 @@ public class HomeActivity extends AppCompatActivity {
         }
     }
 
+    public List<String> getTopics() {
+        return topics;
+    }
 }

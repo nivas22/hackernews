@@ -1,6 +1,6 @@
 package com.example.hackernews.adapter;
 
-import android.content.Context;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -10,16 +10,19 @@ import android.widget.TextView;
 
 import com.example.hackernews.R;
 
+import java.util.ArrayList;
 import java.util.List;
 
-public class TopicsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class TopicsAdapter extends RecyclerView.Adapter<TopicsAdapter.ViewHolder> {
 
     private OnItemClickListener listener;
     private List<String> topics;
 
-    public TopicsAdapter(List<String> topics, OnItemClickListener listener) {
+    public TopicsAdapter(List<String> topics) {
+        if(topics == null){
+            throw new NullPointerException();
+        }
         this.topics = topics;
-        this.listener = listener;
     }
 
     public void setListener(OnItemClickListener listener) {
@@ -40,44 +43,35 @@ public class TopicsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
     @Override
     public int getItemCount() {
-        return topics.size();
+        return topics == null ? 0 : topics.size();
+    }
+    @NonNull
+    @Override
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
+        View itemView = LayoutInflater.from(viewGroup.getContext())
+                .inflate(R.layout.topic_item_layout, viewGroup, false);
+        return new ViewHolder(itemView);
     }
 
     @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        RecyclerView.ViewHolder viewHolder = null;
-        View view = getLayout(parent);
-        viewHolder = new ViewHolder(view);
-        return viewHolder;
-    }
+    public void onBindViewHolder(@NonNull ViewHolder holder, int i) {
+        final String item = getItemAtPosition(i);
+        holder.topicName.setText(item);
 
-    public View getLayout(ViewGroup parent) {
-        return LayoutInflater.from(parent.getContext()).inflate(R.layout.topic_item_layout, parent, false);
+        holder.card.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                listener.onItemClick(v, item);
+            }
+        });
     }
 
     public String getItemAtPosition(int position) {
         return topics.get(position);
     }
 
-    @Override
-    public void onBindViewHolder(final RecyclerView.ViewHolder viewholder, final int position) {
-        if (topics.size() == 0) {
-            return;
-        }
-        ViewHolder holder = (ViewHolder) viewholder;
-        String dueDate = getItemAtPosition(position);
-        holder.topicName.setText(dueDate);
-
-        holder.card.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                listener.onItemClick(topics.get(position));
-            }
-        });
-    }
-
     public interface OnItemClickListener {
-        void onItemClick(String item);
+        void onItemClick(View v, String item);
     }
 
     static class ViewHolder extends RecyclerView.ViewHolder {

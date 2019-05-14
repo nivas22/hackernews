@@ -1,33 +1,48 @@
 package com.example.hackernews.activity;
 
-import com.example.hackernews.RobolectricGradleTestRunner;
+import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.RecyclerView;
+import android.widget.ProgressBar;
+
+import com.example.hackernews.R;
 import com.example.hackernews.adapter.TopicsAdapter;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.Robolectric;
+import org.robolectric.RobolectricTestRunner;
+import org.robolectric.shadows.ShadowApplication;
+
+import java.util.List;
 
 import static org.junit.Assert.*;
-@RunWith(RobolectricGradleTestRunner.class)
+
+@RunWith(RobolectricTestRunner.class)
 public class HomeActivityTest {
 
     private HomeActivity activity;
-    private TopicsAdapter topicsAdapter;
-
 
     @Before
     public void setUp() throws Exception {
-        activity = Robolectric.setupActivity(HomeActivity.class);
+        activity = Robolectric.buildActivity(HomeActivity.class).create().get();
     }
 
+    @Test
+    public void componentsTest() {
+        RecyclerView recyclerView = (RecyclerView) activity.findViewById(R.id.topic_list);
+        ProgressBar progress = (ProgressBar) activity.findViewById(R.id.progress);
+        SwipeRefreshLayout refreshLayout = (SwipeRefreshLayout) activity.findViewById(R.id.swipe_container);
+
+        assertNotNull(recyclerView);
+        assertNotNull(progress);
+        assertNotNull(refreshLayout);
+    }
 
     @Test
-    public void secondActivityStarted() {
-//        activity.findViewById(R.id.findRestaurantsButton).performClick();
-//        Intent expectedIntent = new Intent(activity, RestaurantsActivity.class);
-//        ShadowActivity shadowActivity = org.robolectric.Shadows.shadowOf(activity);
-//        Intent actualIntent = shadowActivity.getNextStartedActivity();
-//        assertTrue(actualIntent.filterEquals(expectedIntent));
+    public void checkTopics() {
+        List<String> topics = activity.getTopics();
+        assertNotNull(topics);
+        assertEquals(0,topics.size());
     }
 }

@@ -1,59 +1,74 @@
 package com.example.hackernews.adapter;
 
-import android.app.Activity;
 import android.content.Context;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-
-import com.example.hackernews.BuildConfig;
-import com.example.hackernews.R;
-import com.example.hackernews.RobolectricGradleTestRunner;
-import com.example.hackernews.activity.HomeActivity;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.Mockito;
-import org.robolectric.Robolectric;
 import org.robolectric.RobolectricTestRunner;
 import org.robolectric.RuntimeEnvironment;
-import org.robolectric.annotation.Config;
 
-import java.sql.Array;
 import java.util.Arrays;
 import java.util.List;
 
+import static org.assertj.android.api.Assertions.assertThat;
 import static org.junit.Assert.*;
 
-@RunWith(RobolectricGradleTestRunner.class)
+@RunWith(RobolectricTestRunner.class)
 public class TopicsAdapterTest {
 
-    private TopicsAdapter.ViewHolder holder;
+    private Context context;
     private TopicsAdapter adapter;
-    private TopicsAdapter.OnItemClickListener listener;
-
+    private List<String> topics;
 
     @Before
     public void setUp() throws Exception {
-        adapter = Mockito.mock(TopicsAdapter.class);
+        context = RuntimeEnvironment.application;
+        topics = Arrays.asList("One", "Two", "Three");
+        adapter = new TopicsAdapter(topics);
+    }
 
-        List<String> topics = Arrays.asList("One", "Two", "Three");
-        adapter.setTopics(topics);
-        this.listener = new TopicsAdapter.OnItemClickListener() {
+    @Test()
+    public void testConstructor() {
+        new TopicsAdapter(topics);
+    }
+
+    @Test(expected=NullPointerException.class)
+    public void testConstructorNullContext() {
+        new TopicsAdapter(null);
+    }
+
+    @Test
+    public void setListener() {
+        adapter.setListener(new TopicsAdapter.OnItemClickListener() {
             @Override
-            public void onItemClick(String item) {
-
+            public void onItemClick(View v, String item) {
             }
-        };
-        adapter.setListener(listener);
-        this.adapter = new TopicsAdapter(topics, listener);
+        });
+        assertNotNull(adapter.getListener());
+    }
+
+    @Test
+    public void getListener() {
+        adapter.setListener(new TopicsAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(View v, String item) {
+            }
+        });
+        assertNotNull(adapter.getListener());
+    }
+
+    @Test
+    public void getTopics() {
+        assertEquals(topics.size(), adapter.getTopics().size());
     }
 
     @Test
     public void setTopics() {
-        List<String> topics = Arrays.asList("One", "Two", "Three");
+        topics = Arrays.asList("One", "Two", "Three", "four");
         adapter.setTopics(topics);
         assertEquals(topics.size(), adapter.getTopics().size());
     }
@@ -64,21 +79,33 @@ public class TopicsAdapterTest {
     }
 
     @Test
+    public void onCreateViewHolder() {
+        RecyclerView parent = new RecyclerView(context);
+        parent.setLayoutManager(new LinearLayoutManager(context));
+
+        TopicsAdapter.ViewHolder viewHolder = adapter.onCreateViewHolder(parent, 0);
+        adapter.onBindViewHolder(viewHolder, 0);
+        adapter.onBindViewHolder(viewHolder, 1);
+        assertNotNull(viewHolder.topicName);
+    }
+
+    @Test
+    public void onBindViewHolder() {
+        RecyclerView parent = new RecyclerView(context);
+        parent.setLayoutManager(new LinearLayoutManager(context));
+
+        TopicsAdapter.ViewHolder viewHolder = adapter.onCreateViewHolder(parent, 0);
+        adapter.onBindViewHolder(viewHolder, 0);
+
+        adapter.onBindViewHolder(viewHolder, 1);
+
+        // JUnit Assertion
+        assertEquals("Two", viewHolder.topicName.getText().toString());
+        assertThat(viewHolder.topicName).isVisible().containsText("Two");
+    }
+
+    @Test
     public void getItemAtPosition() {
         assertEquals(adapter.getItemAtPosition(0), "One");
     }
-
-//    @Test
-//    public void onCreateViewHolder() {
-//    }
-//
-    @Test
-    public void onBindViewHolder() {
-        LayoutInflater inflater = (LayoutInflater) RuntimeEnvironment.application.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View recyclerView = inflater.inflate(R.layout.topic_item_layout, null, false);
-        holder = new TopicsAdapter.ViewHolder(recyclerView);
-        adapter.onBindViewHolder(holder, 0);
-        assertEquals(holder.topicName.getText().toString(), "One");
-    }
-
 }
