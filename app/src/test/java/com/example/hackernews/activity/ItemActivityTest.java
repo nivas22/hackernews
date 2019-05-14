@@ -70,6 +70,11 @@ public class ItemActivityTest {
     }
 
     @Test
+    public void checkActivityActionBar() throws Exception {
+        assertThat(activity.getSupportActionBar()).isNotNull();
+    }
+
+    @Test
     public void loadView() {
         by.setText("Sample");
         date.setText("14/05/2019");

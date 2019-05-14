@@ -2,8 +2,6 @@ package com.example.hackernews;
 
 import android.app.Application;
 import android.content.Context;
-import android.support.multidex.MultiDex;
-import android.support.v7.app.AppCompatDelegate;
 
 import com.example.hackernews.utils.AuthInterceptor;
 
@@ -28,7 +26,6 @@ public class App extends Application {
     @Override
     protected void attachBaseContext(Context base) {
         super.attachBaseContext(base);
-        //MultiDex.install(this);
     }
 
     @Override
@@ -41,8 +38,6 @@ public class App extends Application {
                 .setFontAttrId(R.attr.fontPath)
                 .build()
         );
-
-        AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
 
         sApp = this;
 

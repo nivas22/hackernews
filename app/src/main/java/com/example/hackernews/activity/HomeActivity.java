@@ -69,6 +69,7 @@ public class HomeActivity extends AppCompatActivity {
         refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
+                refreshLayout.setRefreshing(true);
                 loadRecyclerViewData(false);
             }
         });
@@ -86,7 +87,6 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     private void loadRecyclerViewData(boolean isShowProgress) {
-        refreshLayout.setRefreshing(true);
         //Call Get Stories Rest API
         new GetTopStoriesTask(isShowProgress).execute();
     }
@@ -158,11 +158,13 @@ public class HomeActivity extends AppCompatActivity {
             showProgress(false);
 
             if (Constants.INTERNET_DISCONNECTED == result) {
+                refreshLayout.setRefreshing(false);
                 Utils.showSimpleDialogMessage(R.string.internet_disconnected, HomeActivity.this);
                 return;
             }
 
             if (Constants.FAILURE == result) {
+                refreshLayout.setRefreshing(false);
                 Utils.showSimpleDialogMessage(R.string.something_went_wrong, HomeActivity.this);
                 return;
             }

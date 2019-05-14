@@ -10,7 +10,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
@@ -205,7 +204,6 @@ public class ItemActivity extends AppCompatActivity {
             }
 
             if (Constants.SUCCESS == result) {
-                Log.e("Topics count:", String.valueOf(news));
                 if (news != null) {
                     loadView(news);
                 }
