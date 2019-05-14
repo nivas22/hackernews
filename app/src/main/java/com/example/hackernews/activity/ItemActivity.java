@@ -88,6 +88,12 @@ public class ItemActivity extends AppCompatActivity {
         LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(layoutManager);
         adapter = new TopicsAdapter(topics);
+        adapter.setListener(new TopicsAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(View v, String item) {
+
+            }
+        });
         recyclerView.setAdapter(adapter);
 
         new GetTopicItemTask(item).execute();
@@ -110,7 +116,7 @@ public class ItemActivity extends AppCompatActivity {
         cardView.setVisibility(View.VISIBLE);
         typeCard.setVisibility(View.VISIBLE);
         by.setText("By " + news.getBy());
-        type.setText(news.getType());
+        type.setText(news.getType().toUpperCase());
 
         if (news.getType().equals("story")) {
             content.setText(news.getTitle());
