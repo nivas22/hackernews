@@ -13,6 +13,8 @@ import org.junit.runner.RunWith;
 import org.robolectric.Robolectric;
 import org.robolectric.RobolectricTestRunner;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
 @RunWith(RobolectricTestRunner.class)
@@ -63,7 +65,19 @@ public class ItemActivityTest {
     }
 
     @Test
-    public void loadView() {
+    public void checkActivityTitle() throws Exception {
+        assertThat(activity.getTitle()).isNotNull();
+    }
 
+    @Test
+    public void loadView() {
+        by.setText("Sample");
+        date.setText("14/05/2019");
+        type.setText("STORY");
+        comments.setText("Comments");
+        assertEquals("Sample", by.getText().toString());
+        assertEquals("14/05/2019", date.getText().toString());
+        assertEquals("STORY", type.getText().toString());
+        assertEquals("Comments", comments.getText().toString());
     }
 }

@@ -60,9 +60,7 @@ public class HomeActivity extends AppCompatActivity {
         adapter.setListener(new TopicsAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(View v, String item) {
-                Intent mainIntent = new Intent(HomeActivity.this, ItemActivity.class);
-                mainIntent.putExtra("item", item);
-                HomeActivity.this.startActivity(mainIntent);
+                goItemIntent(item);
             }
         });
         recyclerView.setAdapter(adapter);
@@ -79,6 +77,12 @@ public class HomeActivity extends AppCompatActivity {
                 android.R.color.holo_orange_dark,
                 android.R.color.holo_blue_dark);
 
+    }
+
+    private void goItemIntent(String item) {
+        Intent mainIntent = new Intent(HomeActivity.this, ItemActivity.class);
+        mainIntent.putExtra("item", item);
+        HomeActivity.this.startActivity(mainIntent);
     }
 
     private void loadRecyclerViewData(boolean isShowProgress) {

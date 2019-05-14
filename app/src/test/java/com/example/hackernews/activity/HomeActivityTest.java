@@ -14,6 +14,7 @@ import org.robolectric.RobolectricTestRunner;
 
 import java.util.List;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
@@ -51,5 +52,11 @@ public class HomeActivityTest {
         List<String> topics = activity.getTopics();
         assertNotNull(topics);
         assertEquals(0, topics.size());
+    }
+
+    @Test
+    public void checkActivityTitle() throws Exception {
+        assertThat(activity.getTitle()).isNotNull();
+        assertThat(activity.getTitle().toString()).isEqualTo(activity.getString(R.string.app_name));
     }
 }

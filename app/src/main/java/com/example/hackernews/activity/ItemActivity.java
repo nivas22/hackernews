@@ -75,7 +75,6 @@ public class ItemActivity extends AppCompatActivity {
 
         ButterKnife.bind(this);
 
-
         // Get the transferred data from source activity.
         Intent intent = getIntent();
         String item = intent.getStringExtra("item");
