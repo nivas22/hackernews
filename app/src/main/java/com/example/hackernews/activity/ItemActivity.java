@@ -103,7 +103,7 @@ public class ItemActivity extends AppCompatActivity {
     }
 
     private void loadView(News news) {
-        if (news.getKids().length > 0) {
+        if (news.getKids() != null && news.getKids().length > 0) {
             adapter.setTopics(Arrays.asList(news.getKids()));
             adapter.notifyDataSetChanged();
         }
@@ -201,8 +201,9 @@ public class ItemActivity extends AppCompatActivity {
 
             if (Constants.SUCCESS == result) {
                 Log.e("Topics count:", String.valueOf(news));
-                if(news != null)
+                if (news != null) {
                     loadView(news);
+                }
             }
         }
     }
