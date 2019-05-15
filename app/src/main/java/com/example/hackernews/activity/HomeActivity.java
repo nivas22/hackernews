@@ -6,6 +6,7 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.annotation.VisibleForTesting;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -47,6 +48,9 @@ public class HomeActivity extends AppCompatActivity {
     List<String> topics = new ArrayList<>();
     OkHttpClient ok = App.get().getOk();
 
+    @VisibleForTesting
+    protected TaskFactory factory;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,7 +64,9 @@ public class HomeActivity extends AppCompatActivity {
         adapter.setListener(new TopicsAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(View v, String item) {
-                goItemIntent(item);
+                Intent mainIntent = new Intent(HomeActivity.this, ItemActivity.class);
+                mainIntent.putExtra("item", item);
+                HomeActivity.this.startActivity(mainIntent);
             }
         });
         recyclerView.setAdapter(adapter);
@@ -78,12 +84,7 @@ public class HomeActivity extends AppCompatActivity {
                 android.R.color.holo_orange_dark,
                 android.R.color.holo_blue_dark);
 
-    }
-
-    private void goItemIntent(String item) {
-        Intent mainIntent = new Intent(HomeActivity.this, ItemActivity.class);
-        mainIntent.putExtra("item", item);
-        HomeActivity.this.startActivity(mainIntent);
+        factory = new TaskFactory();
     }
 
     private void loadRecyclerViewData(boolean isShowProgress) {
@@ -104,8 +105,16 @@ public class HomeActivity extends AppCompatActivity {
     }
 
 
+    interface TaskFactoryInterface {
+        GetTopStoriesTask getTask();
+    }
+
+    public List<String> getTopics() {
+        return topics;
+    }
+
     @SuppressLint("StaticFieldLeak")
-    private class GetTopStoriesTask extends AsyncTask<Void, Void, Integer> {
+    public class GetTopStoriesTask extends AsyncTask<Void, Void, Integer> {
 
         private List<String> topics = new ArrayList<>();
         private boolean isShowProgress = false;
@@ -178,9 +187,14 @@ public class HomeActivity extends AppCompatActivity {
                 }
             }
         }
+
     }
 
-    public List<String> getTopics() {
-        return topics;
+    @VisibleForTesting
+    protected class TaskFactory implements TaskFactoryInterface {
+        @Override
+        public GetTopStoriesTask getTask() {
+            return new GetTopStoriesTask(false);
+        }
     }
 }

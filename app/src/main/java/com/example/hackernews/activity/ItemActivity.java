@@ -6,6 +6,7 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.annotation.VisibleForTesting;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
@@ -67,6 +68,9 @@ public class ItemActivity extends AppCompatActivity {
     private List<String> topics = new ArrayList<>();
     private OkHttpClient ok = App.get().getOk();
 
+    @VisibleForTesting
+    protected TaskFactory factory;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -93,6 +97,7 @@ public class ItemActivity extends AppCompatActivity {
             }
         });
         recyclerView.setAdapter(adapter);
+        factory = new TaskFactory();
 
         new GetTopicItemTask(item).execute();
     }
@@ -143,9 +148,12 @@ public class ItemActivity extends AppCompatActivity {
         });
     }
 
+    interface TaskFactoryInterface {
+        ItemActivity.GetTopicItemTask getTask();
+    }
 
     @SuppressLint("StaticFieldLeak")
-    private class GetTopicItemTask extends AsyncTask<Void, Void, Integer> {
+    public class GetTopicItemTask extends AsyncTask<Void, Void, Integer> {
 
         private String item;
         private News news;
@@ -211,5 +219,12 @@ public class ItemActivity extends AppCompatActivity {
         }
     }
 
+    @VisibleForTesting
+    protected class TaskFactory implements ItemActivity.TaskFactoryInterface {
+        @Override
+        public ItemActivity.GetTopicItemTask getTask() {
+            return new ItemActivity.GetTopicItemTask("item");
+        }
+    }
 
 }

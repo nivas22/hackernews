@@ -2,9 +2,11 @@ package com.example.hackernews.activity;
 
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.example.hackernews.Constants;
 import com.example.hackernews.R;
 
 import org.junit.Before;
@@ -34,7 +36,6 @@ public class ItemActivityTest {
     @Before
     public void setUp() throws Exception {
         activity = Robolectric.buildActivity(ItemActivity.class).create().get();
-
         recyclerView = (RecyclerView) activity.findViewById(R.id.comment_list);
         cardView = (CardView) activity.findViewById(R.id.main_card);
         typecardView = (CardView) activity.findViewById(R.id.type_card);
@@ -84,5 +85,66 @@ public class ItemActivityTest {
         assertEquals("14/05/2019", date.getText().toString());
         assertEquals("STORY", type.getText().toString());
         assertEquals("Comments", comments.getText().toString());
+        assertEquals(progress.getVisibility(), View.GONE);
+    }
+
+    @Test
+    public void showProgress() {
+        progress.setVisibility(View.VISIBLE);
+        assertEquals(progress.getVisibility(), View.VISIBLE);
+    }
+
+    @Test
+    public void hideProgress() {
+        progress.setVisibility(View.GONE);
+        assertEquals(progress.getVisibility(), View.GONE);
+    }
+
+    @Test
+    public void testServerReturnSuccess() {
+        activity.factory = activity.new TaskFactory() {
+            @Override
+            public ItemActivity.GetTopicItemTask getTask() {
+
+                return activity.new GetTopicItemTask("item") {
+                    @Override
+                    protected Integer doInBackground(Void... params) {
+                        return Constants.SUCCESS;
+                    }
+                };
+            }
+        };
+    }
+
+    @Test
+    public void testServerReturnFail() {
+        activity.factory = activity.new TaskFactory() {
+            @Override
+            public ItemActivity.GetTopicItemTask getTask() {
+
+                return activity.new GetTopicItemTask("item") {
+                    @Override
+                    protected Integer doInBackground(Void... params) {
+                        return Constants.FAILURE;
+                    }
+                };
+            }
+        };
+    }
+
+    @Test
+    public void testServerReturnDisconnect() {
+        activity.factory = activity.new TaskFactory() {
+            @Override
+            public ItemActivity.GetTopicItemTask getTask() {
+
+                return activity.new GetTopicItemTask("item") {
+                    @Override
+                    protected Integer doInBackground(Void... params) {
+                        return Constants.INTERNET_DISCONNECTED;
+                    }
+                };
+            }
+        };
     }
 }
