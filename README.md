@@ -1,3 +1,4 @@
+![](app/src/main/res/mipmap-hdpi/ic_launcher.png) 
 # Hacker News
 Simple Hacker news reader app.
 
